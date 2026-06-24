@@ -1,0 +1,20 @@
+[project]
+name = "adv-enterprise-rag"
+version = "0.1.0"
+description = "Advanced Hybrid RAG Pipeline with Sparse-Dense Retrieval and Cross-Encoder Reranking"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit>=1.35.0",
+    "langchain-core>=0.2.0",
+    "langchain-groq>=1.1.3",
+    "langchain-huggingface>=1.2.2",
+    "langchain-chroma>=0.1.1",
+    "sentence-transformers>=2.6.0",
+    "rank-bm25>=0.2.2",
+    "pypdf>=4.2.0",
+    "python-dotenv>=1.0.1",
+]
+
+[tool.uv]
+managed = true
