@@ -4,21 +4,27 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
+def _get_groq_key():
+    # Pehle Streamlit secrets try karo, phir .env
+    try:
+        import streamlit as st
+        return st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
+    except Exception:
+        return os.getenv("GROQ_API_KEY", "")
 
 class Settings:
-    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
-    VECTOR_DB_DIR: str = os.path.join(BASE_DIR, "chroma_db")
+    GROQ_API_KEY: str = _get_groq_key()
+    VECTOR_DB_DIR: str = "/tmp/chroma_db"  # Streamlit Cloud pe /mount write-protected hai
     CHUNK_SIZE: int = 800
     CHUNK_OVERLAP: int = 200
     TOP_K: int = 6
-    FETCH_K_MULTIPLIER: int = 8     
+    FETCH_K_MULTIPLIER: int = 8
     RERANK_SCORE_THRESHOLD: float = -9.0
     MAX_CHUNK_CHARS: int = 2000
     DEBUG_RETRIEVAL: bool = False
 
     def validate(self):
         if not self.GROQ_API_KEY:
-            raise ValueError("GROQ_API_KEY is missing in your .env file.")
-
+            raise ValueError("GROQ_API_KEY is missing. Add it in Streamlit secrets.")
 
 settings = Settings()
